@@ -1,7 +1,6 @@
 ## Table of Contents
 
-| Section                  |                                      |
-|--------------------------|--------------------------------------|
+
 - [Lottery API Documentation](#lottery-api-documentation)
   - [Table of Contents](#table-of-contents)
   - [- **Endpoint**s](#--endpoints)
@@ -34,7 +33,7 @@
     - [Products](#products)
 
 
-Welcome to the ****Grupo Banklot**** developer portal. Here you will find a reference for how to integrate **Grupo Banklot** into your existing applications and workflows using our [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [HTTPS](https://en.wikipedia.org/wiki/HTTPS)-based API. Our API uses standard [HTTP verbs](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to specify the intent of the operation, and HTTP[ status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the response to those operations. Security tokens are issued on login which are included as [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
+Welcome to the Grupo Banklot developer portal. Here you will find a reference for how to integrate **Grupo Banklot** into your existing applications and workflows using our [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [HTTPS](https://en.wikipedia.org/wiki/HTTPS)-based API. Our API uses standard [HTTP verbs](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to specify the intent of the operation, and HTTP[ status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the response to those operations. Security tokens are issued on login which are included as [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
 
 Use the language selector at the top to show examples in your language of choice, and use the version selector within the code sample for each API to see a sample request/response for that particular version.
 
@@ -90,17 +89,18 @@ Authentication involves the use of a single API. However, multiple authenticatio
 
 1. To login with credentials, call POST /auth/login. The request body should include the following key-value pairs.
 
-```{python}
-**Endpoint**: **/auth/login** 
-**Method:** **POST** 
-**Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body:**
+```json
+Endpoint: /auth/login
+Method: POST 
+Headers:
 ```
 
-```{python} 
+- Content-Type: ****application/json**** 
+
+- **Request Body:**
+
+
+```json 
 {
     "email": "username@banklot.net", 
     "password": "******"
@@ -124,18 +124,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ## Queries
 
 ## **Ticket View**
-```{bash}
-**Endpoint**: **/user/ticket** 
-**Method:** **POST** 
-**Headers:**
+```json
+Endpoint: /user/ticket
+Method: POST
+Headers:
 ```
-- **Content-Type: ****application/json**** **
+- Content-Type: ****application/json**** 
 
 - **Request Body:**
 
 **Request:**
 
-```{bash}
+```json
 {
     "ticket_number": 32426439,
     "date": "2024-10-22"
@@ -145,7 +145,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response:**
 
-```
+```json
 {
     "status": 201,
     "response": {
@@ -230,14 +230,14 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 }
 ```
 ## ## **View Printed Ticket**
+```
+Endpoint: /user/ticket/image/f3f30cdb-2165-487b-bfd0-c990b7ab62c1 
+Method: GET 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/image/f3f30cdb-2165-487b-bfd0-c990b7ab62c1 \
-****Method: ****GET \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-**Request: **Ticket must have the uuid format** **as part of the URL not the body.
+Request: **Ticket must have the uuid format** as part of the URL not the body.
 
 **Response:**
 
@@ -246,18 +246,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 ## ## 
 ## View Last Ticket
+```
+Endpoint: /user/ticket/last 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/last \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **No body is required.
+- Request Body: No body is required.
 
 **Response**:
 
-```
+```json
 {
     "status": 202,
     "response": {
@@ -309,18 +309,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 }
 ```
 ## Cancel Ticket View
-
-**Endpoint**:** /user/ticket/ \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the date time range with the status.
-
-**Request: **Must specified the date time range
-
 ```
+Endpoint: /user/ticket/ 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
+
+- Request Body: Must contain the date time range with the status.
+
+Request: Must specified the date time range
+
+```json
 {
     "filter": {
         "between_created_at": [
@@ -337,7 +337,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response**:
 
-```
+```json
 {
     "status": 200,
     "response": [
@@ -360,18 +360,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Winner Ticket View
+```
+Endpoint: /user/ticket/ 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json****
 
-**Endpoint**:** /user/ticket/ \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the date time range with the status
+- Request Body: Must contain the date time range with the status
 
 **Request:**
 
-```
+```json
 {
     "filter": {
         "between_created_at": [
@@ -388,7 +388,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response:**
 
-```
+```json
     "status": 200,
     "response": [
         {
@@ -409,18 +409,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Sold Tickets
+```
+Endpoint: /user/ticket/ 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json****
 
-**Endpoint**:** /user/ticket/ \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the date time range with the transaction_type
+- Request Body: Must contain the date time range with the transaction_type
 
 **Request:**
 
-```
+```json
 {
   "filter": {
     "between_created_at": [
@@ -439,7 +439,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "response": [
@@ -462,18 +462,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Get Data
-
-**Endpoint**:** /gaming/get-data \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
+```
+Endpoint: /gaming/get-data 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
 - **Request Body:**
 
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "response": {
@@ -542,18 +542,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 # Actions
 
 ## Pay Tickets
+```
+Endpoint: /user/ticket/pay 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/pay \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the ticket number, pin_number and date.
+- Request Body: Must contain the ticket number, pin_number and date.
 
 **Request:**
 
-```
+```json
 {
   "ticket_number": 10653459,
   "pin_number": 84038675,
@@ -562,7 +562,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "error": "not a winner"
@@ -570,18 +570,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Copy Tickets
+```
+Endpoint: /user/ticket/copy 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/copy \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the ticket number and date. 
+- Request Body: Must contain the ticket number and date. 
 
 **Request:**
 
-```
+```json
 {
   "ticket_number": 71998218,
   "date": "2024-09-17"  
@@ -589,7 +589,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 **Response:**
 
-```
+```json
 {
     "status": 201,
     "response": {
@@ -605,25 +605,25 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
                 "wager": "001"
 ```
 ## Cancel a Ticket
+```
+Endpoint:: /user/ticket/cancel 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/cancel \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the ticket number
+- Request Body: Must contain the ticket number
 
 **Request:**
 
-```
+```json
 {
   "ticket_number": 18712010
 }
 ```
 **Response:**
 
-```
+```json
 {
     "status": 400,
     "error": "no rows in result set"
@@ -631,43 +631,43 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Revert a Ticket
+```
+Endpoint: /user/ticket/revert 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/revert \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the ticket number
+- Request Body: Must contain the ticket number
 
 **Request:**
 
-```
+```json
 {
   "ticket_number": 71998218
 }
 ```
 **Response:**
 
-```
+```json
 {
     "status": 401,
     "error": "ticket already rejected by user"
 }
 ```
 ## ## **Create a Ticket**
+```
+Endpoint: /user/ticket/create 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /user/ticket/create \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the amount, event_id, game_id, and the wager.
+- Request Body: Must contain the amount, event_id, game_id, and the wager.
 
 **Request:**
 
-```
+```json
 {
     "ticket": {
         "wagers":
@@ -690,7 +690,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 **Response:**
 
-```
+```json
 {
     "status": 409,
     "error": "events are not open. closed events: [18859]"
@@ -700,18 +700,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 # Reports
 
 ## Report Per Period
+```
+Endpoint: /gaming/reports 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:** /gaming/reports \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the date time range, group and category.
+- Request Body: Must contain the date time range, group and category.
 
 **Request:**
 
-```
+```json
 {
   "between_timestamp": [
     "2024-06-27T04:00:00.000Z",
@@ -724,7 +724,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "total": {
@@ -738,18 +738,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Results Report
+```
+Endpoint: /gaming/result/0 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json****
 
-**Endpoint**:** /gaming/result/0 \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain the date time range.
+- Request Body: Must contain the date time range.
 
 **Request:**
 
-```
+```json
 {
   "filter": {
     "between_created_at": [
@@ -768,7 +768,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "response": [
@@ -870,18 +870,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 # Kiosk
 
 ## Valid Plays
+```
+Endpoint: /gaming/inventory/template
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:**/gaming/inventory/template \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **No body is required. 
+- Request Body: No body is required. 
 
 **Response:**
 
-```
+```json
 {
     "status": 200,
     "response": [
@@ -898,18 +898,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Hour
-
-**Endpoint**:** /gaming/time \
-****Method: ****GET \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
+```
+Endpoint: /gaming/time 
+Method: GET 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
 - **Request Body:**
 
 **Request:**
 
-```
+```json
 {
   "filter": {
     "between_created_at": [
@@ -929,18 +929,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 ```
 ## ## **Draw**
+```
+Endpoint:/gaming/events/search/kiosk 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint**:**/gaming/events/search/kiosk \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **Must contain date time range, game category and status.
+- Request Body: Must contain date time range, game category and status.
 
 **Request:**
 
-```
+```json
 {
     "filter": {        
         "between_created_at": [
@@ -960,7 +960,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 
 **Response:**
 
-```
+```json
 {
     "status": 201,
     "total": 0
@@ -968,18 +968,18 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ```
 
 ## Products
+```
+Endpoint:/gaming/products/search 
+Method: POST 
+Headers:
+```
+- Content-Type: ****application/json**** 
 
-**Endpoint****:/gaming/products/search \
-****Method: ****POST \
-****Headers:**
-
-- **Content-Type: ****application/json**** **
-
-- **Request Body: **No body parameters are required.
+- Request Body: No body parameters are required.
 
 **Response:**
 
-```
+```json
 {
     "status": 201,
     "response": [
