@@ -1,35 +1,37 @@
 ## Table of Contents
 
-| Section                  |  Number |
-|--------------------------| --------|
-| [EndPoints:](#endpoints3)             | -------- 3   |
-| [Verbs:](#verbs4)                    | -------- 4   |
-| [Status Codes:](#statuscodes4)          | -------- 4   |
-| [Authentication:](#authentication5)        | -------- 5   |
-| [Login:](#login5)                   | -------- 5   |
-| [Logout:](#logout5)                  | -------- 5   |
-| [Queries:](#queries7)                | -------- 7   |
-| [Ticket View:](#ticketview7)           | -------- 7   |
-| [View Printed Ticket:](#viewprintedticket10)   | -------- 10  |
-| [View Last Ticket:](#viewlastticket12)      | -------- 12  |
-| [Cancel Ticket View:](#cancelticketview15)    | -------- 15  |
-| [Winner Ticket View:](#winnerticketview17)    | -------- 17  |
-| [Sold Tickets:](#soldtickets19)           | -------- 19  |
-| [Get Data:](#getdata21)               | -------- 21  |
-| [Actions:](#actions24)               | -------- 24  |
-| [Pay Tickets:](#paytickets24)           | -------- 24  |
-| [Copy Tickets:](#copytickets25)          | -------- 25  |
-| [Cancel a Ticket:](#cancelaticket26)       | -------- 26  |
-| [Revert a Ticket:](#revertaticket27)       | -------- 27  |
-| [Create a Ticket:](#createaticket27)      | -------- 27  |
-| [Reports:](#reports30)               | -------- 30  |
-| [Report Per Period:](#reportperperiod30)    | -------- 30  |
-| [Results Report:](#resultsreport32)        | -------- 32  |
-| [Kiosk:](#kiosk36)                  | -------- 36  |
-| [Valid Plays:](#validplays37)           | -------- 37  |
-| [Hour:](#hour38)                   | -------- 38  |
-| [Draw:](#draw39)                   | -------- 39  |
-| [Products:](#products42)              | -------- 42  |
+| Section                  |                                      |
+|--------------------------|--------------------------------------|
+- [Lottery API Documentation](#lottery-api-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [- **Endpoint**s](#--endpoints)
+  - [Verbs](#verbs)
+  - [Status Codes](#status-codes)
+  - [Authentication](#authentication)
+    - [Login](#login)
+    - [Logout](#logout)
+  - [Queries](#queries)
+    - [Ticket View](#ticket-view)
+    - [View Printed Ticket](#view-printed-ticket)
+    - [View Last Ticket](#view-last-ticket)
+    - [Cancel Ticket View](#cancel-ticket-view)
+    - [Winner Ticket View](#winner-ticket-view)
+    - [Sold Tickets](#sold-tickets)
+    - [Get Data](#get-data)
+  - [Actions](#actions)
+    - [Pay Tickets](#pay-tickets)
+    - [Copy Tickets](#copy-tickets)
+    - [Cancel a Ticket](#cancel-a-ticket)
+    - [Revert a Ticket](#revert-a-ticket)
+    - [Create a Ticket](#create-a-ticket)
+  - [Reports](#reports)
+    - [Report Per Period](#report-per-period)
+    - [Results Report](#results-report)
+  - [Kiosk](#kiosk)
+    - [Valid Plays](#valid-plays)
+    - [Hour](#hour)
+    - [Draw](#draw)
+    - [Products](#products)
 
 
 Welcome to the ****Grupo Banklot**** developer portal. Here you will find a reference for how to integrate **Grupo Banklot** into your existing applications and workflows using our [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [HTTPS](https://en.wikipedia.org/wiki/HTTPS)-based API. Our API uses standard [HTTP verbs](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to specify the intent of the operation, and HTTP[ status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the response to those operations. Security tokens are issued on login which are included as [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
@@ -44,7 +46,7 @@ API calls to the ****Grupo Banklot**** portal use the following base URL:
 
 API calls listed below will provide the URL that must be appended to this endpoint when making requests.
 
-## 
+#
 # Verbs
 
 The following HTTP verbs are used. A description of how each is used is shown. Please refer to each API individually for the appropriate syntax for resource creation or update as they can use one of PUT, POST, or PATCH.
@@ -86,17 +88,19 @@ The status codes returned by the API include the following:
 
 Authentication involves the use of a single API. However, multiple authentication and administrative APIs should be used in succession to retrieve the appropriate metadata to use to query the API.
 
-1. To login with credentials, call POST /auth/login. The request body should include the following key-value pairs. \
-**Endpoint**: /auth/login \
-**Method: ****POST \
-****Headers:**
+1. To login with credentials, call POST /auth/login. The request body should include the following key-value pairs.
+
+```{python}
+**Endpoint**: **/auth/login** 
+**Method:** **POST** 
+**Headers:**
 
 - **Content-Type: ****application/json**** **
 
 - **Request Body:**
+```
 
-
-``` 
+```{python} 
 {
     "email": "username@banklot.net", 
     "password": "******"
@@ -113,25 +117,25 @@ Authentication involves the use of a single API. However, multiple authenticatio
 
 **IMPORTANT ** *Upon a successful response, extract the *`x_auth_token`* value from the JSON response. This value is the security token which must be included in subsequent API calls using the *`x-auth-token header`*.*
 
-## **Logout**
+# **Logout**
 
 To log out of the existing session, call `GET ``/auth/logout` with the** **`x-auth-token` set.
 
-# Queries
+## Queries
 
 ## **Ticket View**
-
-**Endpoint**:** /user/ticket** \
-**Method: ****POST \
-****Headers:**
-
+```{bash}
+**Endpoint**: **/user/ticket** 
+**Method:** **POST** 
+**Headers:**
+```
 - **Content-Type: ****application/json**** **
 
 - **Request Body:**
 
 **Request:**
 
-```
+```{bash}
 {
     "ticket_number": 32426439,
     "date": "2024-10-22"
