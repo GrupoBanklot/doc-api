@@ -1,42 +1,46 @@
+## Table of Contents
 
-[EndPoints	3](#endpoints3)
-[Verbs	4](#verbs4)
-[Status Codes	4](#statuscodes4)
-[Authentication	5](#authentication5)
-[Login	5](#login5)
-[Logout	5](#logout5)
-[Queries	7](#queries7)
-[Ticket View	7](#ticketview7)
-[View Printed Ticket	10](#viewprintedticket10)
-[View Last Ticket	12](#viewlastticket12)
-[Cancel Ticket View	15](#cancelticketview15)
-[Winner Ticket View	17](#winnerticketview17)
-[Sold Tickets	19](#soldtickets19)
-[Get Data	21](#getdata21)
-[Actions	24](#actions24)
-[Pay Tickets	24](#paytickets24)
-[Copy Tickets	25](#copytickets25)
-[Cancel a Ticket	26](#cancelaticket26)
-[Revert a Ticket	27](#revertaticket27)
-[Create a Ticket	27](#createaticket27)
-[Reports	30](#reports30)
-[Report Per Period	30](#reportperperiod30)
-[Results Report	32](#resultsreport32)
-[Kiosk	36](#kiosk36)
-[Valid Plays	37](#validplays37)
-[Hour	38](#hour38)
-[Draw	39](#draw39)
-[Products	42](#products42)
+| Section                  |  Number |
+|--------------------------| --------|
+| [EndPoints:](#endpoints3)             | -------- 3   |
+| [Verbs:](#verbs4)                    | -------- 4   |
+| [Status Codes:](#statuscodes4)          | -------- 4   |
+| [Authentication:](#authentication5)        | -------- 5   |
+| [Login:](#login5)                   | -------- 5   |
+| [Logout:](#logout5)                  | -------- 5   |
+| [Queries:](#queries7)                | -------- 7   |
+| [Ticket View:](#ticketview7)           | -------- 7   |
+| [View Printed Ticket:](#viewprintedticket10)   | -------- 10  |
+| [View Last Ticket:](#viewlastticket12)      | -------- 12  |
+| [Cancel Ticket View:](#cancelticketview15)    | -------- 15  |
+| [Winner Ticket View:](#winnerticketview17)    | -------- 17  |
+| [Sold Tickets:](#soldtickets19)           | -------- 19  |
+| [Get Data:](#getdata21)               | -------- 21  |
+| [Actions:](#actions24)               | -------- 24  |
+| [Pay Tickets:](#paytickets24)           | -------- 24  |
+| [Copy Tickets:](#copytickets25)          | -------- 25  |
+| [Cancel a Ticket:](#cancelaticket26)       | -------- 26  |
+| [Revert a Ticket:](#revertaticket27)       | -------- 27  |
+| [Create a Ticket:](#createaticket27)      | -------- 27  |
+| [Reports:](#reports30)               | -------- 30  |
+| [Report Per Period:](#reportperperiod30)    | -------- 30  |
+| [Results Report:](#resultsreport32)        | -------- 32  |
+| [Kiosk:](#kiosk36)                  | -------- 36  |
+| [Valid Plays:](#validplays37)           | -------- 37  |
+| [Hour:](#hour38)                   | -------- 38  |
+| [Draw:](#draw39)                   | -------- 39  |
+| [Products:](#products42)              | -------- 42  |
 
-Welcome to the **Grupo Banklo****t** developer portal. Here you will find a reference for how to integrate **Grupo Banklot** into your existing applications and workflows using our [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [HTTPS](https://en.wikipedia.org/wiki/HTTPS)-based API. Our API uses standard [HTTP verbs](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to specify the intent of the operation, and HTTP[ status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the response to those operations. Security tokens are issued on login which are included as [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
+
+Welcome to the ****Grupo Banklot**** developer portal. Here you will find a reference for how to integrate **Grupo Banklot** into your existing applications and workflows using our [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [HTTPS](https://en.wikipedia.org/wiki/HTTPS)-based API. Our API uses standard [HTTP verbs](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to specify the intent of the operation, and HTTP[ status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the response to those operations. Security tokens are issued on login which are included as [HTTP headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields).
 
 Use the language selector at the top to show examples in your language of choice, and use the version selector within the code sample for each API to see a sample request/response for that particular version.
 
 # EndPoints
 
-API calls to the **Grupo Banklo****t** portal use the following base URL:
+API calls to the ****Grupo Banklot**** portal use the following base URL:
 
-[https://staging.loterias24.com/](https://admin.staging.loterias24.com/)
+[https://staging.loterias24.com/](https://staging.loterias24.com/)
 
 API calls listed below will provide the URL that must be appended to this endpoint when making requests.
 
@@ -91,12 +95,14 @@ Authentication involves the use of a single API. However, multiple authenticatio
 
 - **Request Body:**
 
-```
+
+``` 
 {
- "email": "username@banklot.net",
- "password": "******"
+    "email": "username@banklot.net", 
+    "password": "******"
 }
 ```
+
 - Response:
 
 - Retrieves a token and sets it in the environment variable for future requests.
