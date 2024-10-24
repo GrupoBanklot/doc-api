@@ -89,7 +89,7 @@ Authentication involves the use of a single API. However, multiple authenticatio
 
 1. To login with credentials, call POST /auth/login. The request body should include the following key-value pairs.
 
-```json
+```
 Endpoint: /auth/login
 Method: POST 
 Headers:
@@ -124,7 +124,7 @@ To log out of the existing session, call `GET ``/auth/logout` with the** **`x-au
 ## Queries
 
 ## **Ticket View**
-```json
+```
 Endpoint: /user/ticket
 Method: POST
 Headers:
@@ -229,7 +229,7 @@ Headers:
     }
 }
 ```
-## ## **View Printed Ticket**
+##  **View Printed Ticket**
 ```
 Endpoint: /user/ticket/image/f3f30cdb-2165-487b-bfd0-c990b7ab62c1 
 Method: GET 
@@ -346,7 +346,7 @@ Request: Must specified the date time range
             "ticket_number": 13239361,
             "created_at": 1721660369,
             "user_id": 864,
-            "email": "taquilla@banklot.net",
+            "email": "username@banklot.net",
             "status": "canceled",
             "total": 6,
             "prize": 0,
@@ -396,7 +396,7 @@ Headers:
             "ticket_number": 23315522,
             "created_at": 1728066656,
             "user_id": 864,
-            "email": "taquilla@banklot.net",
+            "email": "username@banklot.net",
             "status": "winner",
             "total": 33,
             "prize": 330,
@@ -448,7 +448,7 @@ Headers:
             "ticket_number": 30213646,
             "created_at": 1724896556,
             "user_id": 864,
-            "email": "taquilla@banklot.net",
+            "email": "username@banklot.net",
             "status": "sold",
             "total": 10,
             "prize": 0,
