@@ -23,9 +23,9 @@
     - [Cancelar un Boleto](#cancelar-un-boleto)
     - [Revertir un Boleto](#revertir-un-boleto)
     - [Crear un Boleto](#crear-un-boleto)
-  - [Informes](#informes)
-    - [Informe por Periodo](#informe-por-periodo)
-    - [Informe de Resultados](#informe-de-resultados)
+  - [Reportes](#reportes)
+    - [Reportes por Periodo](#reporte-por-periodo)
+    - [Reporte de Resultados](#repote-de-resultados)
   - [Kiosko](#quiosco)
     - [Jugadas Válidas](#jugadas-válidas)
     - [Hora](#hora)
@@ -667,7 +667,7 @@ Headers:
 }
 ```
 
-# Informes
+# 
 
 ## Reporte por Periodo
 ```
@@ -707,7 +707,7 @@ Headers:
 }
 ```
 
-## Resultados de Reporte 
+## Reporte de Resultados
 ```
 Endpoint: /gaming/result/0 
 Method: POST 
