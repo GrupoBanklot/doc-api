@@ -25,7 +25,7 @@
     - [Crear un Boleto](#crear-un-boleto)
   - [Reportes](#reportes)
     - [Reportes por Periodo](#reporte-por-periodo)
-    - [Reporte de Resultados](#repote-de-resultados)
+    - [Reporte de Resultados](#reporte-de-resultados)
   - [Kiosko](#quiosco)
     - [Jugadas Válidas](#jugadas-válidas)
     - [Hora](#hora)
@@ -667,7 +667,7 @@ Headers:
 }
 ```
 
-# 
+# Reportes
 
 ## Reporte por Periodo
 ```
