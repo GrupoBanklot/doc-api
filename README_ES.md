@@ -581,9 +581,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: Must contain the ticket number
+- Cuerpo de la solicitud: Debe contener el número de ticket.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -608,9 +608,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: Must contain the ticket number
+- Cuerpo de la solicitud: Debe contener el número de ticket.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -633,9 +633,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: Must contain the amount, event_id, game_id, and the wager.
+- Cuerpo de la solicitud: Debe contener el monto, even_id, game_id y el wager.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -677,9 +677,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: Must contain the date time range, group and category.
+- Cuerpo de la solicitud: Must contain the date time range, group and category.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -715,9 +715,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json****
 
-- Request Body: Must contain the date time range.
+- Cuerpo de la solicitud: Debe contener el rango de fechas.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -837,7 +837,7 @@ Headers:
         },
 
 ```
-# Quiosco
+# Kiosko
 ## Jugadas Válidas
 
 ```
@@ -847,7 +847,7 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: No body is required. 
+- Cuerpo de la solicitud: El cuerpo no es requerido. 
 
 **Respuesta:**
 
@@ -875,9 +875,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- **Request Body:**
+- Cuerpo de la solicitud: Debe contener el rango de fechas.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -906,9 +906,9 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: Must contain date time range, game category and status.
+- Cuerpo de la solicitud: Debe contener el rango de fechas, game_category y status.
 
-**Request:**
+**Solicitud:**
 
 ```json
 {
@@ -946,7 +946,7 @@ Headers:
 ```
 - Tipo de Contenido: ****application/json**** 
 
-- Request Body: No body parameters are required.
+- Cuerpo de la solicitud: El cuerpo no es requerido. 
 
 **Respuesta:**
 
