@@ -1,4 +1,3 @@
-## Table of Contents
 
 ## Tabla de Contenidos
 - [Documentación de la API de la Lotería](#documentación-de-la-api-de-la-lotería)
