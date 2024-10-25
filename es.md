@@ -26,7 +26,7 @@
   - [Informes](#informes)
     - [Informe por Periodo](#informe-por-periodo)
     - [Informe de Resultados](#informe-de-resultados)
-  - [Quiosco](#quiosco)
+  - [Kiosko](#quiosco)
     - [Jugadas Válidas](#jugadas-válidas)
     - [Hora](#hora)
     - [Sorteo](#sorteo)
