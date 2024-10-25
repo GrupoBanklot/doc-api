@@ -1,0 +1,987 @@
+<figure>
+<img src="./images/logo-banklot.png"/>
+<figcaption aria-hidden="true"></figcaption>
+</figure>
+<h2 id="tabla-de-contenidos">Tabla de Contenidos</h2>
+<ul>
+<li><a href="#documentación-de-la-api-de-la-lotería">Documentación de la
+API de la Lotería</a>
+<ul>
+<li><a href="#tabla-de-contenidos">Tabla de Contenidos</a></li>
+<li><a href="#--endpoints">Endpoints</a></li>
+<li><a href="#verbos">Verbos</a></li>
+<li><a href="#códigos-de-estado">Códigos de Estado</a></li>
+<li><a href="#autenticación">Autenticación</a>
+<ul>
+<li><a href="#inicio-de-sesión">Inicio de sesión</a></li>
+<li><a href="#cerrar-sesión">Cerrar sesión</a></li>
+</ul></li>
+<li><a href="#consultas">Consultas</a>
+<ul>
+<li><a href="#vista-del-boleto">Vista del Boleto</a></li>
+<li><a href="#ver-boleto-impreso">Ver Boleto Impreso</a></li>
+<li><a href="#ver-último-boleto">Ver Último Boleto</a></li>
+<li><a href="#cancelar-vista-del-boleto">Cancelar Vista del
+Boleto</a></li>
+<li><a href="#vista-del-boleto-ganador">Vista del Boleto
+Ganador</a></li>
+<li><a href="#boletos-vendidos">Boletos Vendidos</a></li>
+<li><a href="#obtener-datos">Obtener Datos</a></li>
+</ul></li>
+<li><a href="#acciones">Acciones</a>
+<ul>
+<li><a href="#pagar-boletos">Pagar Boletos</a></li>
+<li><a href="#copiar-boletos">Copiar Boletos</a></li>
+<li><a href="#cancelar-un-boleto">Cancelar un Boleto</a></li>
+<li><a href="#revertir-un-boleto">Revertir un Boleto</a></li>
+<li><a href="#crear-un-boleto">Crear un Boleto</a></li>
+</ul></li>
+<li><a href="#informes">Informes</a>
+<ul>
+<li><a href="#informe-por-periodo">Informe por Periodo</a></li>
+<li><a href="#informe-de-resultados">Informe de Resultados</a></li>
+</ul></li>
+<li><a href="#quiosco">Quiosco</a>
+<ul>
+<li><a href="#jugadas-válidas">Jugadas Válidas</a></li>
+<li><a href="#hora">Hora</a></li>
+<li><a href="#sorteo">Sorteo</a></li>
+<li><a href="#productos">Productos</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Bienvenido al portal para desarrolladores de Grupo Banklot. Aquí
+encontrarás una referencia sobre cómo integrar <strong>Grupo
+Banklot</strong> en tus aplicaciones y flujos de trabajo existentes
+utilizando nuestra API <a
+href="https://es.wikipedia.org/wiki/Transferencia_de_Estado_Representacional">RESTful</a>
+basada en <a href="https://es.wikipedia.org/wiki/HTTPS">HTTPS</a>.
+Nuestra API usa verbos <a
+href="https://es.wikipedia.org/wiki/Protocolo_de_Transferencia_de_Hipertexto#Métodos_de_solicitud">HTTP
+estándar</a> para especificar la intención de la operación, y códigos de
+<a
+href="https://es.wikipedia.org/wiki/Lista_de_códigos_de_estado_HTTP">estado
+HTTP</a> para indicar la respuesta a esas operaciones. Se emiten tokens
+de seguridad al iniciar sesión, que se incluyen como <a
+href="https://es.wikipedia.org/wiki/Lista_de_campos_de_cabecera_HTTP">cabeceras
+HTTP</a>.</p>
+<p>Usa el selector de idioma en la parte superior para mostrar ejemplos
+en tu idioma de preferencia, y usa el selector de versión dentro de la
+muestra de código para ver un ejemplo de solicitud/respuesta para esa
+versión en particular.</p>
+<h1 id="endpoints">EndPoints</h1>
+<p>Las llamadas a la API del portal de ****Grupo Banklot**** usan la
+siguiente URL base: <a
+href="https://staging.loterias24.com/">https://staging.loterias24.com/</a>
+Las llamadas a la API listadas a continuación proporcionarán la URL que
+debe ser añadida a este endpoint al hacer solicitudes.</p>
+<h2 id="verbos">Verbos</h2>
+<p>Se usan los siguientes verbos HTTP. Se muestra una descripción de
+cómo se usa cada uno. Por favor, consulta cada API individualmente para
+la sintaxis adecuada para la creación o actualización de recursos, ya
+que pueden usar uno de PUT, POST o PATCH. - GET - recuperar un recurso -
+PUT - actualizar un recurso - PATCH - actualizar un recurso - POST -
+crear un recurso - DELETE - eliminar un recurso</p>
+<h1 id="estado-de-códigos">Estado de Códigos</h1>
+<p>Los códigos de estado devueltos por la API incluyen los siguientes: -
+200 - OK - la solicitud fue exitosa - 201 - Created - el recurso fue
+creado - 204 - No Content - la solicitud fue exitosa, pero no hay datos
+para devolver - 301 - Moved Permanently - el recurso se puede acceder a
+través de otra URL - 400 - Bad Request - hay un problema con la
+solicitud que enviaste - 403 - Forbidden - fallo de autenticación o
+versión de API obsoleta - 404 - Not Found - recurso no encontrado - 500
+- Internal Server Error - hay un error de nuestro lado, ¡envíanos un
+correo electrónico!</p>
+<h1 id="autenticación">Autenticación</h1>
+<h2 id="inicio-de-sesión"><strong>Inicio de sesión</strong></h2>
+<p>La autenticación implica el uso de una única API. Sin embargo, se
+deben usar múltiples APIs de autenticación y administración
+sucesivamente para recuperar los metadatos apropiados para usar en la
+consulta de la API.</p>
+<ol type="1">
+<li>Para iniciar sesión con credenciales, llama a POST /auth/login. El
+cuerpo de la solicitud debe incluir los siguientes pares
+clave-valor.</li>
+</ol>
+<pre><code>Endpoint: /auth/login
+Method: POST
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p><strong>Request Body:</strong></p></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;username@banklot.net&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;password&quot;</span><span class="fu">:</span> <span class="st">&quot;******&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<ul>
+<li><p>Respuesta:</p></li>
+<li><p>Recupera un token y lo establece en la variable de entorno para
+futuras solicitudes.</p></li>
+<li><p>Script de Evento:</p></li>
+<li><p>Analiza el cuerpo de la respuesta y establece el token en el
+entorno.</p></li>
+</ul>
+<p><strong>IMPORTANTE </strong> <em>Tras una respuesta exitosa, extrae
+el valor </em><code>x_auth_token</code>* del JSON de la respuesta. Este
+valor es el token de seguridad que debe ser incluido en las llamadas
+subsiguientes a la API usando el
+<em><code>x-auth-token header</code></em>.*</p>
+<h1 id="cerrar-sesión"><strong>Cerrar sesión</strong></h1>
+<p>Para cerrar la sesión existente, llama a
+<code>GET /auth/logout</code> con el <code>x-auth-token</code>
+configurado.</p>
+<h2 id="consultas">Consultas</h2>
+<h2 id="vista-del-boleto"><strong>Vista del Boleto</strong></h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">32426439</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;pin_number&quot;</span><span class="fu">:</span> <span class="dv">76479163</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;num_wagers&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;parent_id&quot;</span><span class="fu">:</span> <span class="dv">212</span><span class="fu">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;parent_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test&quot;</span><span class="fu">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1729587036</span><span class="fu">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;wagers&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23336</span><span class="fu">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23173</span><span class="fu">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ASTRO ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:00 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-ARI&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23336</span><span class="fu">,</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23173</span><span class="fu">,</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ASTRO ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:00 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-CAN&quot;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23336</span><span class="fu">,</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23173</span><span class="fu">,</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ASTRO ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:00 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-ACU&quot;</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23310</span><span class="fu">,</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23147</span><span class="fu">,</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ZODÍACO DEL ZULIA&quot;</span><span class="fu">,</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:45 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-ARI&quot;</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23310</span><span class="fu">,</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23147</span><span class="fu">,</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ZODÍACO DEL ZULIA&quot;</span><span class="fu">,</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:45 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-CAN&quot;</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23310</span><span class="fu">,</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23147</span><span class="fu">,</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;ZODÍACO DEL ZULIA&quot;</span><span class="fu">,</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:45 pm&quot;</span><span class="fu">,</span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;444-ACU&quot;</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">18</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="ver-boleto-impreso"><strong>Ver Boleto Impreso</strong></h2>
+<pre><code>Endpoint: /user/ticket/image/f3f30cdb-2165-487b-bfd0-c990b7ab62c1 
+Method: GET 
+Headers:</code></pre>
+<ul>
+<li>Tipo de Contenido: ****application/json****</li>
+</ul>
+<p>Solicitud: <strong>El boleto debe tener el formato uuid</strong> como
+parte de la URL, no del cuerpo.</p>
+<p><strong>Respuesta:</strong></p>
+<pre><code></code></pre>
+<h2 id="section"></h2>
+<h2 id="ver-último-boleto"><strong>Ver Último Boleto</strong></h2>
+<pre><code>Endpoint: /user/ticket/last 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: No se requiere cuerpo.</p></li>
+</ul>
+<p><strong>Respuesta</strong>:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">202</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">10063292</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;pin_number&quot;</span><span class="fu">:</span> <span class="dv">38037945</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;num_wagers&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;parent_id&quot;</span><span class="fu">:</span> <span class="dv">212</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;parent_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test&quot;</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1729664000</span><span class="fu">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;wagers&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;JUNGLA MILLONARIA&quot;</span><span class="fu">,</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;09:00 am&quot;</span><span class="fu">,</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;JUNGLA MILLONARIA&quot;</span><span class="fu">,</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;09:00 am&quot;</span><span class="fu">,</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;current_event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23301</span><span class="fu">,</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_name&quot;</span><span class="fu">:</span> <span class="st">&quot;JUNGLA MILLONARIA&quot;</span><span class="fu">,</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;p_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;09:00 am&quot;</span><span class="fu">,</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;2&quot;</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">66</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="vista-de-boletos-anulados"><strong>Vista de Boletos
+Anulados</strong></h2>
+<pre><code>Endpoint: /user/ticket/ 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: Debe contener el rango de fecha y hora
+con el estado.</p></li>
+</ul>
+<p>Solicitud: Debe especificar el rango de fecha y hora.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-06-05T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-10-23T03:59:59.999Z&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;canceled&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sort&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta</strong>:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;639a1521-49b9-4876-a36c-36c621593930&quot;</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">13239361</span><span class="fu">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1721660369</span><span class="fu">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;user_id&quot;</span><span class="fu">:</span> <span class="dv">864</span><span class="fu">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;username@banklot.net&quot;</span><span class="fu">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;canceled&quot;</span><span class="fu">,</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;prize&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_id&quot;</span><span class="fu">:</span> <span class="dv">212</span><span class="fu">,</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test&quot;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>       <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span></code></pre></div>
+<h2 id="vista-del-boleto-ganador"><strong>Vista del Boleto
+Ganador</strong></h2>
+<pre><code>Endpoint: /user/ticket/ 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: Debe contener el rango de fecha y hora
+con el estado</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-10-01T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-10-23T03:59:59.999Z&quot;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;winner&quot;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sort&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="er">&quot;status&quot;:</span> <span class="er">200,</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">&quot;response&quot;:</span> <span class="ot">[</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;af681029-87a2-4834-b7f9-56d88ee3a74e&quot;</span><span class="fu">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">23315522</span><span class="fu">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1728066656</span><span class="fu">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;user_id&quot;</span><span class="fu">:</span> <span class="dv">864</span><span class="fu">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;username@banklot.net&quot;</span><span class="fu">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;winner&quot;</span><span class="fu">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">33</span><span class="fu">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;prize&quot;</span><span class="fu">:</span> <span class="dv">330</span><span class="fu">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_id&quot;</span><span class="fu">:</span> <span class="dv">212</span><span class="fu">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span></code></pre></div>
+<h2 id="boletos-vendidos">Boletos Vendidos</h2>
+<pre><code>Endpoint: /user/ticket/ 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: Debe contener el rango de fecha y hora
+con el tipo de transacción</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-08-28T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-08-29T03:59:59.999Z&quot;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;transaction_type&quot;</span><span class="fu">:</span> <span class="st">&quot;wager&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;order_by&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;created_at&quot;</span><span class="fu">,</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;value&quot;</span><span class="fu">:</span> <span class="st">&quot;desc&quot;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;16baefc2-5c3e-4f17-a26c-c19808e22655&quot;</span><span class="fu">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">30213646</span><span class="fu">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;created_at&quot;</span><span class="fu">:</span> <span class="dv">1724896556</span><span class="fu">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;user_id&quot;</span><span class="fu">:</span> <span class="dv">864</span><span class="fu">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;username@banklot.net&quot;</span><span class="fu">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;sold&quot;</span><span class="fu">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;prize&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_id&quot;</span><span class="fu">:</span> <span class="dv">212</span><span class="fu">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;entity_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;parent_name&quot;</span><span class="fu">:</span> <span class="st">&quot;test&quot;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="obtener-datos">Obtener Datos</h2>
+<pre><code>Endpoint: /gaming/get-data 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p><strong>Solicitud:</strong></p></li>
+</ul>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_id&quot;</span><span class="fu">:</span> <span class="dv">213</span><span class="fu">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;test-1&quot;</span><span class="fu">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;games&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;animalitos77&quot;</span><span class="ot">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;animalitos&quot;</span><span class="ot">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tripleta&quot;</span><span class="ot">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;lottery&quot;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;entity_data&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;address1&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;address2&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;city&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;municipality&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;rif&quot;</span><span class="fu">:</span> <span class="st">&quot;1234&quot;</span><span class="fu">,</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;seconds_to_cancel&quot;</span><span class="fu">:</span> <span class="dv">180</span><span class="fu">,</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;state&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_expiration_days&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_footer&quot;</span><span class="fu">:</span> <span class="st">&quot;123&quot;</span><span class="fu">,</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;ticket_header&quot;</span><span class="fu">:</span> <span class="st">&quot;123&quot;</span><span class="fu">,</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;time_zone&quot;</span><span class="fu">:</span> <span class="st">&quot;America/Caracas&quot;</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;game_data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount_multiple&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;commission&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_bet&quot;</span><span class="fu">:</span> <span class="dv">99</span><span class="fu">,</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_permutations&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequence_size&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequences&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;min_bet&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;product_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ticket_max_wagers&quot;</span><span class="fu">:</span> <span class="dv">100</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount_multiple&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;commission&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_bet&quot;</span><span class="fu">:</span> <span class="dv">99</span><span class="fu">,</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_permutations&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequence_size&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequences&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;min_bet&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;product_id&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ticket_max_wagers&quot;</span><span class="fu">:</span> <span class="dv">100</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount_multiple&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;commission&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_bet&quot;</span><span class="fu">:</span> <span class="dv">99</span><span class="fu">,</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_permutations&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequence_size&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;max_sequences&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;min_bet&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;product_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ticket_max_wagers&quot;</span><span class="fu">:</span> <span class="dv">100</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span></code></pre></div>
+<h1 id="acciones">Acciones</h1>
+<h2 id="pagar-boletos">Pagar Boletos</h2>
+<pre><code>Endpoint: /user/ticket/pay 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: Debe contener el número del boleto,
+pin_number y la fecha.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">10653459</span><span class="fu">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pin_number&quot;</span><span class="fu">:</span> <span class="dv">84038675</span><span class="fu">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-09-16&quot;</span>  </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;not a winner&quot;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="copiar-boletos">Copiar Boletos</h2>
+<pre><code>Endpoint: /user/ticket/copy 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la Solicitud: Debe contener el número del boleto y la
+fecha.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">71998218</span><span class="fu">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-09-17&quot;</span>  </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ticket_uuid&quot;</span><span class="fu">:</span> <span class="st">&quot;362a5a41-2ac4-4c8f-a8f7-a907f86e4426&quot;</span><span class="fu">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">71998218</span><span class="fu">,</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;num_wagers&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;wagers&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23335</span><span class="fu">,</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;old_event_id&quot;</span><span class="fu">:</span> <span class="dv">18748</span><span class="fu">,</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;001&quot;</span></span></code></pre></div>
+<h2 id="anular-boletos">Anular Boletos</h2>
+<pre><code>Endpoint:: /user/ticket/cancel 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el número de
+ticket.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">18712010</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">400</span><span class="fu">,</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;no rows in result set&quot;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="revertir-boleto">Revertir Boleto</h2>
+<pre><code>Endpoint: /user/ticket/revert 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el número de
+ticket.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ticket_number&quot;</span><span class="fu">:</span> <span class="dv">71998218</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">401</span><span class="fu">,</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;ticket already rejected by user&quot;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="crear-un-boleto"><strong>Crear un Boleto</strong></h2>
+<pre><code>Endpoint: /user/ticket/create 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el monto, even_id, game_id
+y el wager.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;ticket&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;wagers&quot;</span><span class="fu">:</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>            <span class="ot">[</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">2000</span><span class="fu">,</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">18859</span><span class="fu">,</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;341&quot;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">2000</span><span class="fu">,</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">18859</span><span class="fu">,</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;000&quot;</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">409</span><span class="fu">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;events are not open. closed events: [18859]&quot;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h1 id="informes">Informes</h1>
+<h2 id="reporte-por-periodo">Reporte por Periodo</h2>
+<pre><code>Endpoint: /gaming/reports 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Must contain the date time range, group
+and category.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;between_timestamp&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;2024-06-27T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;2024-06-28T03:59:59.999Z&quot;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;group&quot;</span><span class="fu">:</span> <span class="st">&quot;user&quot;</span><span class="fu">,</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span> </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;agency&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;balance&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;parent_balance&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;prize&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;sale&quot;</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="resultados-de-reporte">Resultados de Reporte</h2>
+<pre><code>Endpoint: /gaming/result/0 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el rango de
+fechas.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-08-18T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-09-18T03:59:59.999Z&quot;</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;order_by&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;event_timestamp&quot;</span><span class="fu">,</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;value&quot;</span><span class="fu">:</span> <span class="st">&quot;desc&quot;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">18697</span><span class="fu">,</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_product_id&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;JUNGLA MILLONARIA&quot;</span><span class="fu">,</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time_utc&quot;</span><span class="fu">:</span> <span class="st">&quot;20:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;closing_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1729713300</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;animalitos&quot;</span><span class="fu">,</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;result&quot;</span><span class="fu">,</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726603200</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;display_order&quot;</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;main_result&quot;</span><span class="fu">:</span> <span class="st">&quot;5&quot;</span><span class="fu">,</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_status&quot;</span><span class="fu">:</span> <span class="st">&quot;closed&quot;</span><span class="fu">,</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;result_created_at&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726545660</span><span class="fu">,</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;nanos&quot;</span><span class="fu">:</span> <span class="dv">192719000</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">18732</span><span class="fu">,</span></span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_product_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time_utc&quot;</span><span class="fu">:</span> <span class="st">&quot;20:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;closing_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1729713300</span></span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;result&quot;</span><span class="fu">,</span></span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726603200</span></span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;display_order&quot;</span><span class="fu">:</span> <span class="dv">19</span><span class="fu">,</span></span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;list&quot;</span><span class="fu">:</span> <span class="st">&quot;C&quot;</span><span class="fu">,</span></span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;main_result&quot;</span><span class="fu">:</span> <span class="st">&quot;000-ACU&quot;</span><span class="fu">,</span></span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_status&quot;</span><span class="fu">:</span> <span class="st">&quot;closed&quot;</span><span class="fu">,</span></span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;zodiac&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;result_created_at&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726545660</span><span class="fu">,</span></span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;nanos&quot;</span><span class="fu">:</span> <span class="dv">192719000</span></span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">18731</span><span class="fu">,</span></span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_product_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time_utc&quot;</span><span class="fu">:</span> <span class="st">&quot;20:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;closing_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1729713300</span></span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;result&quot;</span><span class="fu">,</span></span>
+<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-63"><a href="#cb39-63" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726603200</span></span>
+<span id="cb39-64"><a href="#cb39-64" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-65"><a href="#cb39-65" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;display_order&quot;</span><span class="fu">:</span> <span class="dv">19</span><span class="fu">,</span></span>
+<span id="cb39-66"><a href="#cb39-66" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;list&quot;</span><span class="fu">:</span> <span class="st">&quot;A&quot;</span><span class="fu">,</span></span>
+<span id="cb39-67"><a href="#cb39-67" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;list_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb39-68"><a href="#cb39-68" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;main_result&quot;</span><span class="fu">:</span> <span class="st">&quot;000&quot;</span><span class="fu">,</span></span>
+<span id="cb39-69"><a href="#cb39-69" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_status&quot;</span><span class="fu">:</span> <span class="st">&quot;closed&quot;</span><span class="fu">,</span></span>
+<span id="cb39-70"><a href="#cb39-70" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;result_created_at&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-71"><a href="#cb39-71" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726545660</span><span class="fu">,</span></span>
+<span id="cb39-72"><a href="#cb39-72" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;nanos&quot;</span><span class="fu">:</span> <span class="dv">192719000</span></span>
+<span id="cb39-73"><a href="#cb39-73" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb39-74"><a href="#cb39-74" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb39-75"><a href="#cb39-75" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb39-76"><a href="#cb39-76" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">18694</span><span class="fu">,</span></span>
+<span id="cb39-77"><a href="#cb39-77" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_product_id&quot;</span><span class="fu">:</span> <span class="dv">6</span><span class="fu">,</span></span>
+<span id="cb39-78"><a href="#cb39-78" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;JUNGLA MILLONARIA&quot;</span><span class="fu">,</span></span>
+<span id="cb39-79"><a href="#cb39-79" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;15:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-80"><a href="#cb39-80" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_time_utc&quot;</span><span class="fu">:</span> <span class="st">&quot;19:00&quot;</span><span class="fu">,</span></span>
+<span id="cb39-81"><a href="#cb39-81" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;closing_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-82"><a href="#cb39-82" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1729709700</span></span>
+<span id="cb39-83"><a href="#cb39-83" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-84"><a href="#cb39-84" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;animalitos&quot;</span><span class="fu">,</span></span>
+<span id="cb39-85"><a href="#cb39-85" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;result&quot;</span><span class="fu">,</span></span>
+<span id="cb39-86"><a href="#cb39-86" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-87"><a href="#cb39-87" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726599600</span></span>
+<span id="cb39-88"><a href="#cb39-88" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb39-89"><a href="#cb39-89" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;display_order&quot;</span><span class="fu">:</span> <span class="dv">17</span><span class="fu">,</span></span>
+<span id="cb39-90"><a href="#cb39-90" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;main_result&quot;</span><span class="fu">:</span> <span class="st">&quot;2&quot;</span><span class="fu">,</span></span>
+<span id="cb39-91"><a href="#cb39-91" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;event_status&quot;</span><span class="fu">:</span> <span class="st">&quot;closed&quot;</span><span class="fu">,</span></span>
+<span id="cb39-92"><a href="#cb39-92" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;result_created_at&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb39-93"><a href="#cb39-93" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;seconds&quot;</span><span class="fu">:</span> <span class="dv">1726545660</span><span class="fu">,</span></span>
+<span id="cb39-94"><a href="#cb39-94" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;nanos&quot;</span><span class="fu">:</span> <span class="dv">192719000</span></span>
+<span id="cb39-95"><a href="#cb39-95" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb39-96"><a href="#cb39-96" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span></code></pre></div>
+<h1 id="kiosko">Kiosko</h1>
+<h2 id="jugadas-válidas">Jugadas Válidas</h2>
+<pre><code>Endpoint: /gaming/inventory/template
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: El cuerpo no es requerido.</p></li>
+</ul>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;001&quot;</span><span class="fu">,</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="st">&quot;001&quot;</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;wager&quot;</span><span class="fu">:</span> <span class="st">&quot;002&quot;</span><span class="fu">,</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="st">&quot;002&quot;</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span></code></pre></div>
+<h2 id="hora">Hora</h2>
+<pre><code>Endpoint: /gaming/time 
+Method: GET 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el rango de
+fechas.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-04-21&quot;</span><span class="ot">,</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;2024-04-21&quot;</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sort&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;desc&quot;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<pre><code></code></pre>
+<h2 id="sorteo"><strong>Sorteo</strong></h2>
+<pre><code>Endpoint:/gaming/events/search/kiosk 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: Debe contener el rango de fechas,
+game_category y status.</p></li>
+</ul>
+<p><strong>Solicitud:</strong></p>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;filter&quot;</span><span class="fu">:</span> <span class="fu">{</span>        </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;between_created_at&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-06-05T04:00:00.000Z&quot;</span><span class="ot">,</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;2024-06-06T03:59:59.999Z&quot;</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>         <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;open&quot;</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sort&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;desc&quot;</span><span class="fu">,</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;event_timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;desc&quot;</span><span class="fu">,</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;display_order&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="productos">Productos</h2>
+<pre><code>Endpoint:/gaming/products/search 
+Method: POST 
+Headers:</code></pre>
+<ul>
+<li><p>Tipo de Contenido: ****application/json****</p></li>
+<li><p>Cuerpo de la solicitud: El cuerpo no es requerido.</p></li>
+</ul>
+<p><strong>Respuesta:</strong></p>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">17</span><span class="fu">,</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE DORADO&quot;</span><span class="fu">,</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERIA DE GUAYANA&quot;</span><span class="fu">,</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">22</span><span class="fu">,</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">1000000</span><span class="fu">,</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23286</span><span class="fu">,</span></span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;14:00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-24&quot;</span><span class="fu">,</span></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:00:00&quot;</span></span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">30</span><span class="fu">,</span></span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTTO REY&quot;</span><span class="fu">,</span></span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERIA DE MARGARITA&quot;</span><span class="fu">,</span></span>
+<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">24</span><span class="fu">,</span></span>
+<span id="cb49-28"><a href="#cb49-28" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-29"><a href="#cb49-29" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">1000000</span><span class="fu">,</span></span>
+<span id="cb49-30"><a href="#cb49-30" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;animalitos&quot;</span><span class="fu">,</span></span>
+<span id="cb49-31"><a href="#cb49-31" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-32"><a href="#cb49-32" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-33"><a href="#cb49-33" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-34"><a href="#cb49-34" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-35"><a href="#cb49-35" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23431</span><span class="fu">,</span></span>
+<span id="cb49-36"><a href="#cb49-36" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;13:30:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-37"><a href="#cb49-37" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-24&quot;</span><span class="fu">,</span></span>
+<span id="cb49-38"><a href="#cb49-38" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;11:30:00&quot;</span></span>
+<span id="cb49-39"><a href="#cb49-39" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-40"><a href="#cb49-40" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-41"><a href="#cb49-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb49-42"><a href="#cb49-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-43"><a href="#cb49-43" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">18</span><span class="fu">,</span></span>
+<span id="cb49-44"><a href="#cb49-44" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;GUACHARO ACTIVO&quot;</span><span class="fu">,</span></span>
+<span id="cb49-45"><a href="#cb49-45" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERÍA DE ORIENTE&quot;</span><span class="fu">,</span></span>
+<span id="cb49-46"><a href="#cb49-46" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">23</span><span class="fu">,</span></span>
+<span id="cb49-47"><a href="#cb49-47" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-48"><a href="#cb49-48" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">1000000</span><span class="fu">,</span></span>
+<span id="cb49-49"><a href="#cb49-49" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;animalitos77&quot;</span><span class="fu">,</span></span>
+<span id="cb49-50"><a href="#cb49-50" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-51"><a href="#cb49-51" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-52"><a href="#cb49-52" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-53"><a href="#cb49-53" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-54"><a href="#cb49-54" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23346</span><span class="fu">,</span></span>
+<span id="cb49-55"><a href="#cb49-55" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;14:00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-56"><a href="#cb49-56" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-24&quot;</span><span class="fu">,</span></span>
+<span id="cb49-57"><a href="#cb49-57" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;12:00:00&quot;</span></span>
+<span id="cb49-58"><a href="#cb49-58" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-59"><a href="#cb49-59" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-60"><a href="#cb49-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb49-61"><a href="#cb49-61" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-62"><a href="#cb49-62" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">27</span><span class="fu">,</span></span>
+<span id="cb49-63"><a href="#cb49-63" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE CHANCE&quot;</span><span class="fu">,</span></span>
+<span id="cb49-64"><a href="#cb49-64" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERÍA DE ORIENTE&quot;</span><span class="fu">,</span></span>
+<span id="cb49-65"><a href="#cb49-65" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">23</span><span class="fu">,</span></span>
+<span id="cb49-66"><a href="#cb49-66" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-67"><a href="#cb49-67" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">1000000</span><span class="fu">,</span></span>
+<span id="cb49-68"><a href="#cb49-68" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb49-69"><a href="#cb49-69" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-70"><a href="#cb49-70" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-71"><a href="#cb49-71" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-72"><a href="#cb49-72" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-73"><a href="#cb49-73" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23366</span><span class="fu">,</span></span>
+<span id="cb49-74"><a href="#cb49-74" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:30:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-75"><a href="#cb49-75" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-76"><a href="#cb49-76" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb49-77"><a href="#cb49-77" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-78"><a href="#cb49-78" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-79"><a href="#cb49-79" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb49-80"><a href="#cb49-80" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-81"><a href="#cb49-81" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb49-82"><a href="#cb49-82" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE ZULIA&quot;</span><span class="fu">,</span></span>
+<span id="cb49-83"><a href="#cb49-83" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERÍA DEL ZÚLIA&quot;</span><span class="fu">,</span></span>
+<span id="cb49-84"><a href="#cb49-84" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb49-85"><a href="#cb49-85" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-86"><a href="#cb49-86" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">1000000</span><span class="fu">,</span></span>
+<span id="cb49-87"><a href="#cb49-87" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb49-88"><a href="#cb49-88" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-89"><a href="#cb49-89" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-90"><a href="#cb49-90" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-91"><a href="#cb49-91" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-92"><a href="#cb49-92" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23311</span><span class="fu">,</span></span>
+<span id="cb49-93"><a href="#cb49-93" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:45:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-94"><a href="#cb49-94" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-95"><a href="#cb49-95" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb49-96"><a href="#cb49-96" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-97"><a href="#cb49-97" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-98"><a href="#cb49-98" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb49-99"><a href="#cb49-99" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb49-100"><a href="#cb49-100" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb49-101"><a href="#cb49-101" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;TRIPLE ZAMORANO&quot;</span><span class="fu">,</span></span>
+<span id="cb49-102"><a href="#cb49-102" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery&quot;</span><span class="fu">:</span> <span class="st">&quot;LOTERÍA DEL ZÚLIA&quot;</span><span class="fu">,</span></span>
+<span id="cb49-103"><a href="#cb49-103" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_id&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb49-104"><a href="#cb49-104" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-105"><a href="#cb49-105" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;quota&quot;</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb49-106"><a href="#cb49-106" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;game_category&quot;</span><span class="fu">:</span> <span class="st">&quot;lottery&quot;</span><span class="fu">,</span></span>
+<span id="cb49-107"><a href="#cb49-107" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;lottery_status&quot;</span><span class="fu">:</span> <span class="st">&quot;active&quot;</span><span class="fu">,</span></span>
+<span id="cb49-108"><a href="#cb49-108" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb49-109"><a href="#cb49-109" aria-hidden="true" tabindex="-1"></a>                <span class="fu">{</span></span>
+<span id="cb49-110"><a href="#cb49-110" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-111"><a href="#cb49-111" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_id&quot;</span><span class="fu">:</span> <span class="dv">23316</span><span class="fu">,</span></span>
+<span id="cb49-112"><a href="#cb49-112" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;event_time&quot;</span><span class="fu">:</span> <span class="st">&quot;16:00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb49-113"><a href="#cb49-113" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_date&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-10-23&quot;</span><span class="fu">,</span></span>
+<span id="cb49-114"><a href="#cb49-114" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;next_event_time&quot;</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb49-115"><a href="#cb49-115" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb49-116"><a href="#cb49-116" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb49-117"><a href="#cb49-117" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span></code></pre></div>
