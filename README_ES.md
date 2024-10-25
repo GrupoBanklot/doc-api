@@ -1,4 +1,4 @@
-
+![Grupo Banklot](https://github.com/GrupoBanklot/doc-api/tree/main/images/logo-banklot.png)
 ## Tabla de Contenidos
 - [Documentación de la API de la Lotería](#documentación-de-la-api-de-la-lotería)
   - [Tabla de Contenidos](#tabla-de-contenidos)
