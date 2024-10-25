@@ -1,6 +1,6 @@
+![Grupo Banklot](./images/logo-banklot.png)
+
 ## Table of Contents
-
-
 - [Lottery API Documentation](#lottery-api-documentation)
   - [Table of Contents](#table-of-contents)
   - [Endpoints](#--endpoints)
