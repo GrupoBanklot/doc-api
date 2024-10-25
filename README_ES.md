@@ -2,7 +2,7 @@
 ## Tabla de Contenidos
 - [Documentación de la API de la Lotería](#documentación-de-la-api-de-la-lotería)
   - [Tabla de Contenidos](#tabla-de-contenidos)
-  - [- **Endpoints**](#--endpoints)
+  - [Endpoints](#--endpoints)
   - [Verbos](#verbos)
   - [Códigos de Estado](#códigos-de-estado)
   - [Autenticación](#autenticación)
