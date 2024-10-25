@@ -3,7 +3,7 @@
 
 - [Lottery API Documentation](#lottery-api-documentation)
   - [Table of Contents](#table-of-contents)
-  - [- **Endpoint**s](#--endpoints)
+  - [Endpoints](#--endpoints)
   - [Verbs](#verbs)
   - [Status Codes](#status-codes)
   - [Authentication](#authentication)
