@@ -37,7 +37,7 @@
 ## - **Endpoint**s
 API calls to the Grupo Banklot portal use the following base URL:
 
-https://staging.loterias24.com/
+https://prueba.gatobets.com/
 
 markdown
 

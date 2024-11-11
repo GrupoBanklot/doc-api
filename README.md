@@ -41,7 +41,7 @@ Use the language selector at the top to show examples in your language of choice
 
 API calls to the ****Grupo Banklot**** portal use the following base URL:
 
-[https://staging.loterias24.com/](https://staging.loterias24.com/)
+[https://staging.gatobets.com/](https://staging.gatobets.com/)
 
 API calls listed below will provide the URL that must be appended to this endpoint when making requests.
 

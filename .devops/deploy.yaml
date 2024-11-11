@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-doc
+  namespace: redirect
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - instrucciones.banklot.net
+  rules:
+    - host: "registro.banklot.net"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: registry
+                port:
+                  number: 80

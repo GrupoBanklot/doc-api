@@ -38,7 +38,7 @@ Usa el selector de idioma en la parte superior para mostrar ejemplos en tu idiom
 
 # EndPoints
 Las llamadas a la API del portal de ****Grupo Banklot**** usan la siguiente URL base:
-[https://staging.loterias24.com/](https://staging.loterias24.com/)
+[https://prueba.gatobets.com/](https://prueba.gatobets.com/)
 Las llamadas a la API listadas a continuación proporcionarán la URL que debe ser añadida a este endpoint al hacer solicitudes.
 
 ## Verbos
